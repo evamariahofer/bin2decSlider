@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLab
 from PyQt5.QtCore import Qt, QSize, QTimer
 from gpiozero import LED
 
+leds = [LED(18),LED(23),LED(24),LED(25)]
+
 class EvaWindow(QMainWindow):
     def __init__(self):
         
@@ -50,12 +52,14 @@ class EvaWindow(QMainWindow):
         valSlider = self.slider.value()
         self.label.setNum(valSlider)
         temp = 0
-        for bitlabel in self.bitlabels:
+        for index, bitlabel in enumerate(self.bitlabels):
+            leds[index].off()
             bitlabel.setStyleSheet("background-color: grey")
             numBit = int(bitlabel.text())
             if temp + numBit <= valSlider:
                 temp += numBit
                 bitlabel.setStyleSheet("background-color: red")
+                leds[index].on()
                 
                 
         
